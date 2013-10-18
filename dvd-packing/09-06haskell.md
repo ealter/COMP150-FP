@@ -1,0 +1,1 @@
+../problemStatements/09-06haskell.md
