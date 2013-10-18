@@ -1,12 +1,16 @@
+{-#OPTIONS -Wall -Werror -fno-warn-name-shadowing #-}
+
 import Albums
 import Data.List
 import Data.Function
 
+main :: IO ()
 main = do
   mapM_ (print . (map albumName)) fitNormanAlbums
   putStrLn ("The number of dvds is " ++ (show $ length fitNormanAlbums))
   putStrLn ("The smallest dvd is " ++ (show $ dvdSize $ minimumBy (compare `on` dvdSize) fitNormanAlbums))
 
+dvdMaxSize :: Integer
 dvdMaxSize = 4700000000
 
 type Dvd = [Album]
