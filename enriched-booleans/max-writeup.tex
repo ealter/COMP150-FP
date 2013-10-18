@@ -1,0 +1,71 @@
+% There are different document classes for different types
+% of structures, e.g. books, articles, and letters.
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\setlength{\headheight}{15pt}
+\pagestyle{fancyplain}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2ex}
+
+\lhead{\fancyplain{}{Enriched Booleans}}
+\chead{Max Goldstein}
+\rhead{COMP 150FP, Fall 2013}
+\lfoot{}
+\cfoot{}
+\rfoot{}
+
+\begin{document}
+The syntactic proof system contains two rules, each corresponding to an instance
+declaration. First, however, the arity of the functions is all that is expressed
+in the type class header:
+\begin{verbatim}
+import Prelude hiding (either)
+
+class Enriched a where
+    opposite :: a -> a
+    either :: a -> a -> a
+    both :: a -> a -> a
+\end{verbatim}
+The first rule is an axiom that any Boolean may be enriched:
+\[
+    \frac{}{\textrm{Bool }\epsilon\textrm{ Enriched}}
+\]
+The corresponding instance declaration gives the operations that perform as
+desired on Booleans; that is, the result of an Enriched once further
+applied:
+\begin{verbatim}
+instance Enriched Bool where
+    opposite = not
+    either = (||)
+    both = (&&)
+\end{verbatim}
+The second rule of the syntactic proof states that a function from an Enriched
+to an Enriched is itself an Enriched. Inductively, this means that these functions
+may take in Enriched functions instead of Booleans, and this propagates as many
+layers as needed.
+\[
+    \frac{b\:\epsilon\textrm{ Enriched}}{(a \rightarrow b)\:\epsilon\textrm{ Enriched}}
+\]
+The first line of the instance declaration is essentially the syntactic proof
+rule written in code. The implementations of the Enriched functions are hidden
+in plain sight: evaluate the enriched function and then use that as an argument
+to the ``same" Enriched function as was called. This ``same" function may be a
+recursive call, if the argument function is still not fully applied, or it may
+be a call to the base case in the other instance.
+\begin{verbatim}
+instance Enriched b => Enriched (a -> b) where
+    opposite f x = opposite (f x)
+    either f g x = either (f x) (g x)
+    both f g x = both (f x) (g x)
+\end{verbatim}
+\end{document}
+
