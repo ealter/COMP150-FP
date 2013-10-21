@@ -1,4 +1,6 @@
--- Exercise 2: dot --
+{-# OPTIONS -Wall -Werror -fno-warn-name-shadowing #-}
+
+-- Dot-writer monad attempt using Typeclass for Graphs
 
 -- Graph representation (so bad!)
 data Node a = Node { val :: a, n_label :: Maybe String }
@@ -15,14 +17,14 @@ instance Show a => Show (Edge a) where
   show (Edge src dst (Just label)) = label ++ ": " ++ show src ++ " -> " ++ show dst
   
 getNodeForVal :: Eq a => a -> Graph a -> Node a
-getNodeForVal search_val (Graph [] _) = error "No such node"
+getNodeForVal _ (Graph [] _) = error "No such node"
 getNodeForVal search_val (Graph ((Node val label):ns) es) = if search_val == val
                                                               then Node val label
                                                               else getNodeForVal search_val (Graph ns es)
                                                                    
 getLabel :: Node a -> String
-getLabel (Node val Nothing) = ""
-getLabel (Node val (Just label)) = label
+getLabel (Node _ Nothing) = ""
+getLabel (Node _ (Just label)) = label
 
 --- Attempting to hide possible Node and Edge implementations --
 class GraphType g where
