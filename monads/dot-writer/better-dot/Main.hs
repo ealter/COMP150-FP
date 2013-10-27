@@ -8,7 +8,7 @@
 
     Recommended Usage: ./main n | dot -Tpdf > a.pdf && pdfreader a.pdf
 
-    NOTE: Uses a slight modified Red Black tree from Andrew Gallant's GitHub.
+    NOTE: Uses a slight modified Red Black tree from Nate Tenczar.
           File is Monads/RedBlack.hs
 
    (c)2013 Diogenes A. Nunez
