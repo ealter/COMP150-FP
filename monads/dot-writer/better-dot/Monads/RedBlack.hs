@@ -1,7 +1,7 @@
 {-# OPTIONS -Wall -Werror -fno-warn-name-shadowing #-}
 
 {-
- This is Red Black Tree from Andew Gallant's GitHub.
+ This is Red Black Tree from Nate Tecnzar.
  The only code I added is the Heap instance.
 -}
 module Monads.RedBlack
